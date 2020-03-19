@@ -1,1 +1,1 @@
-The folder contains the video assests of the 360 Telepresence project.
+Add the video1.mp4 in this folder.
