@@ -1,0 +1,69 @@
+body {
+  padding: 0;
+  margin: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #2FC3F2;
+}
+
+#header{
+  height: 60px;
+  padding: 10px;
+  background-color: black;
+
+}
+
+#logo{
+  display: inline-block;
+
+  height: 60px;
+}
+
+#header-title{
+  font-size: 30px;
+  color: white;
+  margin: 12px;
+  display: inline-block;
+  vertical-align: top;
+
+}
+
+img{
+  height: 60px;
+}
+
+#video-controls{
+  z-index: 1000;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#stream-button{
+
+}
+
+a-scene{
+  margin: 50px auto;
+  max-height: : 450px;
+  max-width: 800px;
+  width: 100%;
+  height: 400px;
+}
+
+iframe{
+  width: 400px;
+  height: 250px;
+}
+
+.wrapper{
+  display: inline-block;
+}
+
+.controls-btn{
+  color: white;
+  background-color: black;
+  border-radius: 0px;
+  font-style: bold;
+  border:solid 1px white;
+}
