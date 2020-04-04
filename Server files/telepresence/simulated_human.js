@@ -5,6 +5,11 @@ var frame_number;
 var start_time_movement;
 var move_direction = "none";
 var rotation_angle_sim_human_head = 0;
+var baseline = false;
+
+var probabilisitic_movement = false;
+var probability = 0.8;
+
 
 
 function init_human_simulation(){
@@ -13,6 +18,10 @@ function init_human_simulation(){
     Sim_human_imageSphereEl = sceneEl.querySelector("[id='360_image_sky']");
 	//setInterval(move_head, 5000);
 	setInterval(head_movement_timed, 50);
+	
+	if(baseline == true){
+		probability = 0.0;
+	}
 	
 	set_sim_human_fov_marker();
 	
@@ -51,7 +60,34 @@ function changeMoveDirection(directionIn){
 function head_movement_timed(){
 	sceneEl = document.querySelector('a-scene');
 	Sim_human_imageSphereEl = sceneEl.querySelector("[id='360_image_sky']");
+	
+	
+	if (baseline == false){
+		let SceneSimHuman = document.querySelector('a-scene');
+		let left_arrow_Sim = SceneSimHuman.querySelector("[id='left_arrow_aframe']");
+		let current_state_left_arrow = left_arrow_Sim.getAttribute("visible");
+		let right_arrow_Sim = SceneSimHuman.querySelector("[id='right_arrow_aframe']");
+		let current_state_right_arrow = right_arrow_Sim.getAttribute("visible");
+		if (current_state_left_arrow && probabilisitic_movement == false){
+			if(Math.random() < probability){
+				console.log("Reversing movement");
+				move_direction = "left";
+				
+			}
+		}
+		else if (current_state_right_arrow && probabilisitic_movement ==  false){
+			if(Math.random() < probability){
+				console.log("Reversing movement right to left");
+				move_direction = "right";
+				
+			}
+		}
+		probabilisitic_movement = true;
+	}
+	
+	
 	if(move_direction == "none"){
+		probabilisitic_movement = false;
 		return;
 	}
 	else if(move_direction == "left"){
@@ -64,6 +100,7 @@ function head_movement_timed(){
 		set_sim_human_fov_marker();
 		if(difference > 2){
 			move_direction = "none";
+			probabilisitic_movement = false;
 		}
 		//console.log(difference);
 	}
@@ -77,6 +114,7 @@ function head_movement_timed(){
 		set_sim_human_fov_marker();
 		if(difference > 2){
 			move_direction = "none";
+			probabilisitic_movement = false;
 		}
 		//console.log(difference);
 	}
