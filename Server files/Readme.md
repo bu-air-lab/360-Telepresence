@@ -22,3 +22,8 @@ The file takes care of the object detection behaviors of the robot and also term
 ```
 trial_complete = true
 ```
+
+To run the baseline experiments, you can change the disable_arrows to true, this will not show any arrows. Currently the variable is set to false and hence it will show the arrows to guide the virtual human.
+```
+var disable_arrows = true;
+```
