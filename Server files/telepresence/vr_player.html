@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Eyevinn vr-player</title>
+<script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://rawgit.com/oscarmarinmiro/aframe-video-controls/master/dist/aframe-video-controls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/hls.js/latest/hls.min.js"></script>
+<script src="main.js"></script><script src="shaka-player.compiled.js"></script>
+<script src="shaka-loader.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="header">
+<div id="logo">
+<img src="/logo.png">
+</div>
+<h2 id="header-title">Eyevinn vr-player</h2>
+</div>
+<div id="video-controls">
+<div id="video-controls_inner">
+<button class="play controls-btn">Play</button>
+<button class="pause controls-btn">Pause</button>
+<input id="stream-input">
+<button id="stream-button" placeholder="enter your stream url" class="controls-btn">Load</button>
+</div>
+</div>
+<a-scene embedded>
+<a-assets>
+<video id="video_1" src="videos/video1.mp4" autoplay muted loop controls></video>
+</a-assets>
+<a-videosphere src="#video_1" width="16" height="9" position="0 0 -8"></a-videosphere>
+</a-scene>
+</body>
+</html>

@@ -1,0 +1,3 @@
+<a-videosphere src="#360_vid" id = "360_videosphere" width="3" height="5" rotation="0 -70 0" >
+								
+							</a-videosphere>
