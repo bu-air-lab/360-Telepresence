@@ -1,0 +1,10 @@
+<launch>
+	<arg name="map_file" default="$(find telepresence)/maps/union.yaml" />
+	
+	<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
+	
+	
+
+	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"> </include>
+	<node name="robot_marker" pkg="telepresence" type="robot_marker.py"/>
+</launch>
