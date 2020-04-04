@@ -27,3 +27,9 @@ To run the baseline experiments, you can change the disable_arrows to true, this
 ```
 var disable_arrows = true;
 ```
+
+## simulated_human.js
+The file contains code for the simulated human behavior. For baseline experiments change the following variable to true.
+```
+var baseline = true;
+```
