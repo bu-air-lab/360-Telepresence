@@ -8,7 +8,6 @@ import threading
 import time
 import random
 from geometry_msgs.msg import Point, Pose
-import requests
 from std_msgs.msg import String
 from std_msgs.msg import Int32	
 
