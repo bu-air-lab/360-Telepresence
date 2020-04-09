@@ -10,6 +10,15 @@ The following items can be modified in the 360video.php to run the experiments:
 ```
 In the above line, the starting frame number can be changed to anything between 300 and 340 for randomization. Also, the rotation of y-axis can be changed from -1 to anything between 0 to 359 for randomization during experiments.
 
+## ros_360.js
+To initiate the connection between ROS and the web server, please change the IP in the url parameter on line 18 as follows:
+```
+ros = new ROSLIB.Ros({
+      url : 'ws://192.168.1.1:9090'
+});
+```
+Here 192.168.1.1 should be replaced your computer IP address.
+
 ## 360image.js
 The file works with changing the frames for the 360 based on the simulated human's behaviors. 
 To stop the random behavior for debugging, set the following variable to true, currently it is false and the robot will randomly move around and change orientation which is required for the experiments.
