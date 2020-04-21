@@ -11,11 +11,11 @@ var robot_loc_counter_topic;
 var robot_current_loc_map = 0;
 
   function init_ros_360() {
-	  
+
     //setInterval(get_robot_pose, 1000);
     // Connect to ROS.
     ros = new ROSLIB.Ros({
-      url : 'ws://192.168.1.10:9090'
+      url : 'ws://192.168.1.6:9090'
     });
 
      // Create the main viewer.
@@ -30,29 +30,29 @@ var robot_current_loc_map = 0;
       // name : '/amcl_pose',
       // messageType : 'geometry_msgs/PoseWithCovarianceStamped'
     // });
-	
-	
+
+
 	robot_loc_counter_topic = new ROSLIB.Topic({
 		ros : ros,
 		name : '/robot_loc_counter',
 		messageType : 'std_msgs/Int32'
 	});
-	
-	
+
+
 	current_robot_location_message = new ROSLIB.Message({
          a: 'robot_current_loc_map'
     });
-	
-	
 
-	
+
+
+
 	gridClient = new ROS2D.OccupancyGridClient({
       ros : ros,
       rootObject : viewer.scene,
-      // Use this property in case of continuous updates			
+      // Use this property in case of continuous updates
       continuous: true
     });
-	
+
 	let startTime;
 
     // Scale the canvas to fit to the map
@@ -68,16 +68,16 @@ var robot_current_loc_map = 0;
       // rootObject : viewer.scene,
       // viewer : viewer,
       // serverName : '/move_base'
-         
+
 
     // });
 	findCanvas();
 	draw_robot_location();
 	//setInterval(update_robot_marker, 5);
 	//update_robot_marker();
-	
-	
-	  
+
+
+
 }
 
 // var createFunc = function (handlerToCall, discriminator, robotMarker) {
@@ -110,8 +110,8 @@ function createFunc (handlerToCall, discriminator, robotMarker) {
 		robotMarker.rotation = -degreeZ + 35;
 	})
 }
-   
-   
+
+
 function advance_robot_location(){
 	var sceneElROS = document.querySelector('a-scene');
     var imageSphereElROS = sceneElROS.querySelector("[id='360_image_sky']");
@@ -125,7 +125,7 @@ function advance_robot_location(){
     });
 	robot_loc_counter_topic.publish(current_robot_location_message);
 }
-   
+
 
 function reverse_robot_location(){
 	var sceneElROS = document.querySelector('a-scene');
@@ -143,7 +143,7 @@ function reverse_robot_location(){
 	}
 
 }
-   
+
 function findCanvas(){
 
 	var canvas = document.getElementById("rvizMap").getElementsByTagName('canvas')[0];
@@ -155,36 +155,36 @@ function draw_robot_location(){
 	var context = canvas.getContext('2d');
 	context.strokeStyle = "blue";
 	context.strokeRect(75, 60, 10, 10);
-	
+
 	// var robotMarker = new ROS2D.NavigationArrow({
 		// size : 1.5,
 		// strokeSize : 0.05,
 		// pulse: true,
 		// fillColor: createjs.Graphics.getRGB(100, 10, 20, 0.65)
 	// });
-	
+
 	var robotMarker = new ROS2D.PolygonMarker({
 		pointSize : 0.7,
 		//strokeSize : 0.05,
 		//pulse: true,
 		fillColor: createjs.Graphics.getRGB(238, 100, 50, 1)
 	});
-	
+
 	robotMarker.addPoint(0,0);
-	
-	
+
+
 	var poseTopic = new ROSLIB.Topic({
 		ros: ros,
 		name: '/modified_robot_pose',
 		messageType: 'geometry_msgs/Pose'
 	});
-	
 
-	
+
+
 	createFunc('subscribe', poseTopic, robotMarker);
-	
+
 	gridClient.rootObject.addChild(robotMarker);
-	
+
 }
 
 function update_robot_marker(){
@@ -195,7 +195,7 @@ function update_robot_marker(){
 	context.arc(100, 75, 5, 0, 2 * Math.PI);
 	context.fillStyle = "blue";
 	context.fill();
-	
+
 }
 
 

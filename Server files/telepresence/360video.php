@@ -14,47 +14,49 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
 	<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="init_trial.js?version=123321212131232212312312313123123321"></script>
 	<script type="text/javascript" src="simulated_human.js?version=10182231111111221121122111111120211121"></script>
 	<script type="text/javascript" src="360_image.js?version=10800001221213222111212112121212111121112212112"></script>
 	<script type="text/javascript" src="ros_360.js?version=1021202111121111232212133111323211211211221231"></script>
 	<script src="obj_det_coco.js?version=1212120221311122112121213111"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-		
-	
-	
 
-	
-	
-	
+
+
+
+
+
+
 	<script>
 		window.onload=function(){
 			//init_arrow_simulation();
 			//init_360_vid();
+      test_simulation(9); //Even is baseline, odd is human sim, 0-19 //
 			init_ros_360();
 			init_human_simulation();
 			init_360_image();
-			
+
 		}
 	</script>
-	
+
 	<style>
 	a-scene {
 		height: 361px;
 		width: 535px;
 		margin: 0px;
 	};
-	
+
 	</style>
   </head>
   <body>
-	
+
 	  <div class="container">
 	  </br>
 			<div class="row">
 				<center>
 				<div id="mapContainer" class="col-md-6">
 					<div id="rvizMap">
-						
+
 					</div>
 					<h2>2-D Map<h2>
 				</div>
@@ -67,17 +69,17 @@
 							<a-camera></a-camera>
 						</a-entity>
 						<a-sky src="frames/300_frame.jpg" id="360_image_sky" rotation="0 -1 0"></a-sky>
-						
+
 						<a-assets>
 							<image id="left_arrow_asset"  src="images/left_arrow.png"> </image>
 							<image id="right_arrow_asset"  src="images/right_arrow.png"> </image>
 						</a-assets>
 						<a-image src="#left_arrow_asset" id="left_arrow_aframe" position="0 2 -4"></a-image>
 						<a-image src="#right_arrow_asset" position="0 2 -4" id="right_arrow_aframe" ></a-image>
-							
+
 						</a-scene>
 						<h2>360 Environment<h2>
-						
+
 						<center>
 							<div style="background-color: rgba(0, 0, 0, 0.7); border-radius: 100%; height: 70px; right: 20px; top: 50%; width: 70px;">
 							<svg id="sim_human_fov" width="70px" height="70px" viewBox="0 0 60 60" style="cursor: pointer; pointer-events: initial; transform: rotate(0.16223rad);">
@@ -89,19 +91,19 @@
 							</svg>
 							</div>
 							<h2>Human Field of View<h2>
-							
+
 							<div class="arrow" style="display:none">
 								Arrow: <span class='arrow_side' id="arrow_direction_string"></span>
-								
+
 							</div>
-							
+
 						</center>
 					</div>
 				</center>
 			</div>
 		</div>
-	
-    
-	
+
+
+
   </body>
 </html>

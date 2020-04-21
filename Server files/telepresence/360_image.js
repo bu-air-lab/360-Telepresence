@@ -2,7 +2,10 @@ var sceneEl;
 var imageSphereEl;
 var frame_number;
 
-var stop_randomization = false;
+//VARIABLE CHANGED//
+//var stop_randomization = false;
+////////////////////
+
 disable_arrows = true;
 
 function init_360_image(){
@@ -26,9 +29,9 @@ function printAngle(){
 }
 
 function random_movement_generator(){
-	
+
 	var rand_number = Math.floor((Math.random() * 4) + 1);
-	
+
 	if(stop_randomization){
 		return;
 	}
@@ -39,20 +42,20 @@ function random_movement_generator(){
 			changeMoveDirection("none");
 			console.log("Moving forward");
 			break;
-			
+
 		case 2:
 			go_back();
 			reverse_robot_location();
 			changeMoveDirection("none");
 			console.log("Moving back");
 			break;
-			
+
 		case 3:
 			//move_head_left();
 			console.log("Moving left");
 			changeMoveDirection("left");
 			break;
-			
+
 		case 4:
 			//move_head_right();
 			console.log("Moving right");
@@ -68,47 +71,46 @@ function frame_changer(e){
 			console.log("Moving left");
 			changeMoveDirection("left");
 			break;
-		
+
 		case 38:
 			go_forward();
 			advance_robot_location();
 			changeMoveDirection("none");
 			console.log("Moving forward");
 			break;
-			
+
 		case 39:
 			//move_head_right();
 			console.log("Moving right");
 			changeMoveDirection("right");
 			break;
-			
+
 		case 40:
 			go_back();
 			reverse_robot_location();
 			changeMoveDirection("none");
 			console.log("Moving back");
 			break;
-			
+
 		case 84:
 			stop_randomization  = true;
 			break;
-		
+
 		case 85:
 			stop_randomization  = false;
 			break;
-		
+
 		case 86:
 			disable_all_arrows();
 			break;
 	}
 }
 
-
 function change_frame(){
 	if (frame_number<345){
 		frame_number = frame_number+5;
 		var dummy_frame_obj_detection = document.getElementById('detection_img');
-		
+
 	}
 
 
@@ -120,18 +122,19 @@ function go_back(){
 		var dummy_frame_obj_detection = document.getElementById('detection_img');
 		dummy_frame_obj_detection.setAttribute('src', 'frames/'+frame_number+'_frame.jpg');
 		imageSphereEl.setAttribute('src', 'frames/'+frame_number+'_frame.jpg');
-		
+		movements++;
 	}
-	
-	
+
+
 }
 
 function go_forward(){
 	if (frame_number<345){
-		frame_number = frame_number+5;	
+		frame_number = frame_number+5;
 		var dummy_frame_obj_detection = document.getElementById('detection_img');
 		dummy_frame_obj_detection.setAttribute('src', 'frames/'+frame_number+'_frame.jpg');
 		imageSphereEl.setAttribute('src', 'frames/'+frame_number+'_frame.jpg');
+		movements++;
 	}
-	
+
 }

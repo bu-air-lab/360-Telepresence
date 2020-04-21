@@ -7,15 +7,18 @@ var tv_location=0;
 var current_arrow = "left";
 var invert_arrows = false;
 
-var disable_arrows = false;
+//VARIABLE CHANGED//
+//var disable_arrows = false;
+////////////////////
 
 var frame_325_min_angle = 310;
 var frame_325_max_angle = 330;
 var frame_330_min_angle = 350;
 var frame_330_max_angle = 12;
 
-var trial_complete = false;
-
+//VARIABLE CHANGED//
+//var trial_complete = false;
+////////////////////
 
 function disable_all_arrows(){
 	disable_arrows = true;
@@ -106,23 +109,19 @@ function change_arrows(){
 	console.log("Frame number in img recog is "+frame_number);
 	modified_rotation_angle = (rotation_angle_sim_human_head+1440)%360;
 	document.querySelector('.arrow .arrow_side').innerHTML = current_arrow;
-	
-	if(tv_location == 0 || disable_arrows){
-		console.log("Disabling arrows due to no tv or bool disable_arrows set.");
-		disable("right_arrow_aframe");
-		disable("left_arrow_aframe");
-		current_arrow = "none";
-		return;
-	}
-	
+
+	//MOVED IF STATEMENT TO BOTTOM BECUASE BASELINE WAS UNABLE TO DETECT TV
+
 	if(frame_number == 325){
 		if(modified_rotation_angle>frame_325_min_angle && modified_rotation_angle < frame_325_max_angle){
+			var trialEnd = new Date();
+			var trialDifference = trialEnd - trialStart;
 			console.log("TV detected in frame 325");
 			disable("right_arrow_aframe");
 			disable("left_arrow_aframe");
 			current_arrow = "none";
 			trial_complete = true;
-			alert("Trial complete");
+			alert("Trial " + trialNum + " complete:  TrialType: " + trialType + "  Total Time: " + trialDifference + "ms  Total Robot Movements: " + movements);
 			return;
 		}
 		else if(modified_rotation_angle>frame_325_min_angle-180 && modified_rotation_angle < frame_325_min_angle){
@@ -138,18 +137,20 @@ function change_arrows(){
 			current_arrow = "left";
 		}
 		else{
-			console.log("TV not detected");
+			console.log("TV not detected 325");
 		}
 	}
-	
+
 	else if(frame_number == 330){
 		if( (modified_rotation_angle>frame_330_min_angle && modified_rotation_angle < 360) || (modified_rotation_angle > 0 && modified_rotation_angle < frame_330_max_angle) ){
+			var trialEnd = new Date();
+			var trialDifference = trialEnd - trialStart;
 			console.log("TV detected in frame 330");
 			disable("right_arrow_aframe");
 			disable("left_arrow_aframe");
 			current_arrow = "none";
 			trial_complete = true;
-			alert("Trial complete");
+			alert("Trial " + trialNum + " complete:  TrialType: " + trialType + "  Total Time: " + trialDifference + "ms  Total Robot Movements: " + movements);
 			return;
 		}
 		else if(modified_rotation_angle>frame_330_min_angle-180 && modified_rotation_angle < frame_330_min_angle){
@@ -167,6 +168,7 @@ function change_arrows(){
 		else{
 			console.log("TV not detected 330");
 		}
+
 	}
 	// if(tv_location <250){
 		// console.log("Should enable left arrow");
@@ -191,6 +193,15 @@ function change_arrows(){
 		// disable("left_arrow");
 		// current_arrow = "left";
 	// }
+	
+	//MOVED IF STATEMENT
+	if(tv_location == 0 || disable_arrows){
+		console.log("Disabling arrows due to no tv or bool disable_arrows set.");
+		disable("right_arrow_aframe");
+		disable("left_arrow_aframe");
+		current_arrow = "none";
+		return;
+	}
 }
 
 

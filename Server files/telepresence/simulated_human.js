@@ -4,8 +4,15 @@ var Sim_human_Sim_human_imageSphereEl;
 var frame_number;
 var start_time_movement;
 var move_direction = "none";
-var rotation_angle_sim_human_head = 0;
-var baseline = false;
+var rotation_angle_sim_human_head = 0; // CHANGED FROM 0 TO DETECT RANDOM HEAD ROTATION IN INIT: NOT UPDATING ??
+
+//WOULD SET ROTATION TO CURRENT ROTATION AT START OF TIRAL
+//var rotation_angle_sim_human_head;
+
+
+//VARIABLE CHANGED//
+//var baseline = false;
+////////////////////
 
 var probabilisitic_movement = false;
 var probability = 0.8;
@@ -15,16 +22,21 @@ var probability = 0.8;
 function init_human_simulation(){
 	//get canvas and set up call backs
 	sceneEl = document.querySelector('a-scene');
-    Sim_human_imageSphereEl = sceneEl.querySelector("[id='360_image_sky']");
+  Sim_human_imageSphereEl = sceneEl.querySelector("[id='360_image_sky']");
+
+	//THIS WOULD CHANGE IT SO THE STARTING POSITION OF THE HEAD IS SET AT THE START OF THE TRIAL INSTEAD OF ASSUMED ZERO
+	//rotation_angle_sim_human_head = Sim_human_imageSphereEl.getAttribute('rotation').y;
 	//setInterval(move_head, 5000);
+
+
 	setInterval(head_movement_timed, 50);
-	
+
 	if(baseline == true){
 		probability = 0.0;
 	}
-	
+
 	set_sim_human_fov_marker();
-	
+
 	// var videoSphere = sceneEl.querySelector('#360_videosphere');
 	// videoSphere.setAttribute('rotation', {x: 0, y: 10, z: 0});
 }
@@ -56,12 +68,11 @@ function changeMoveDirection(directionIn){
 	move_direction = directionIn;
 }
 
-
 function head_movement_timed(){
 	sceneEl = document.querySelector('a-scene');
 	Sim_human_imageSphereEl = sceneEl.querySelector("[id='360_image_sky']");
-	
-	
+
+
 	if (baseline == false){
 		let SceneSimHuman = document.querySelector('a-scene');
 		let left_arrow_Sim = SceneSimHuman.querySelector("[id='left_arrow_aframe']");
@@ -72,20 +83,20 @@ function head_movement_timed(){
 			if(Math.random() < probability){
 				console.log("Reversing movement");
 				move_direction = "left";
-				
+
 			}
 		}
 		else if (current_state_right_arrow && probabilisitic_movement ==  false){
 			if(Math.random() < probability){
 				console.log("Reversing movement right to left");
 				move_direction = "right";
-				
+
 			}
 		}
 		probabilisitic_movement = true;
 	}
-	
-	
+
+
 	if(move_direction == "none"){
 		probabilisitic_movement = false;
 		return;
@@ -147,8 +158,7 @@ function move_head_right(){
 	return;
 }
 
-function degrees_to_radians(degrees)
-{
+function degrees_to_radians(degrees){
   var pi = Math.PI;
   return degrees * (pi/180);
 }
