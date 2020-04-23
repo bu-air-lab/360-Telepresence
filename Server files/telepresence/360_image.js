@@ -29,9 +29,30 @@ function printAngle(){
 }
 
 function random_movement_generator(){
-
-	var rand_number = Math.floor((Math.random() * 4) + 1);
-
+	console.log("Code reaches here");
+	var rand_number;
+	if(baseline == false){
+		if(frame_number == 325){
+			var action_space = [1,3,4]; 
+			console.log("Restricting backward movement");
+			rand_number = Math.floor(Math.random() * 3);
+			rand_number = action_space[rand_number];
+		}
+		else if(frame_number == 330){
+			var action_space = [2,3,4]; 
+			console.log("Restricting forward movement");
+			rand_number = Math.floor(Math.random() * 3);
+			rand_number = action_space[rand_number];
+		}
+		else
+		{
+			rand_number = Math.floor((Math.random() * 4) + 1);
+		}
+	}
+	else{
+		rand_number = Math.floor((Math.random() * 4) + 1);
+	}
+	console.log("Code reaches here"+rand_number);
 	if(stop_randomization){
 		return;
 	}

@@ -11,10 +11,16 @@ var invert_arrows = false;
 //var disable_arrows = false;
 ////////////////////
 
-var frame_325_min_angle = 310;
-var frame_325_max_angle = 330;
-var frame_330_min_angle = 350;
-var frame_330_max_angle = 12;
+// var frame_325_min_angle = 310;
+// var frame_325_max_angle = 330;
+// var frame_330_min_angle = 350;
+// var frame_330_max_angle = 12;
+var frame_325_min_angle = 300;
+var frame_325_max_angle = 335;
+var frame_325_mid_angle = 318; 
+var frame_330_min_angle = 335;
+var frame_330_max_angle = 15;
+var frame_330_mid_angle =0;   
 
 //VARIABLE CHANGED//
 //var trial_complete = false;
@@ -124,25 +130,22 @@ function change_arrows(){
 			alert("Trial " + trialNum + " complete:  TrialType: " + trialType + "  Total Time: " + trialDifference + "ms  Total Robot Movements: " + movements);
 			return;
 		}
-		else if(modified_rotation_angle>frame_325_min_angle-180 && modified_rotation_angle < frame_325_min_angle){
+		else if ((modified_rotation_angle < frame_325_min_angle) && modified_rotation_angle > (frame_325_mid_angle-180)){
 			console.log("Should enable right arrow");
 			enable("right_arrow_aframe");
 			disable("left_arrow_aframe");
 			current_arrow = "right";
 		}
-		else if (modified_rotation_angle < frame_325_max_angle+180 && modified_rotation_angle < frame_325_max_angle){
+		else{
 			console.log("Should enable left arrow");
 			enable("left_arrow_aframe");
 			disable("right_arrow_aframe");
 			current_arrow = "left";
 		}
-		else{
-			console.log("TV not detected 325");
-		}
 	}
 
 	else if(frame_number == 330){
-		if( (modified_rotation_angle>frame_330_min_angle && modified_rotation_angle < 360) || (modified_rotation_angle > 0 && modified_rotation_angle < frame_330_max_angle) ){
+		if(modified_rotation_angle > frame_330_min_angle || modified_rotation_angle < frame_330_max_angle){
 			var trialEnd = new Date();
 			var trialDifference = trialEnd - trialStart;
 			console.log("TV detected in frame 330");
@@ -153,22 +156,18 @@ function change_arrows(){
 			alert("Trial " + trialNum + " complete:  TrialType: " + trialType + "  Total Time: " + trialDifference + "ms  Total Robot Movements: " + movements);
 			return;
 		}
-		else if(modified_rotation_angle>frame_330_min_angle-180 && modified_rotation_angle < frame_330_min_angle){
+		else if(modified_rotation_angle < frame_330_min_angle && modified_rotation_angle > 180){
 			console.log("Should enable right arrow");
 			enable("right_arrow_aframe");
 			disable("left_arrow_aframe");
 			current_arrow = "right";
 		}
-		else if (modified_rotation_angle < frame_330_max_angle+180 && modified_rotation_angle > frame_330_max_angle){
+		else{
 			console.log("Should enable left arrow");
 			enable("left_arrow_aframe");
 			disable("right_arrow_aframe");
 			current_arrow = "left";
 		}
-		else{
-			console.log("TV not detected 330");
-		}
-
 	}
 	// if(tv_location <250){
 		// console.log("Should enable left arrow");

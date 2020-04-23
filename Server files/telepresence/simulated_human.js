@@ -19,14 +19,15 @@ var probability = 0.8;
 
 
 
-function init_human_simulation(){
+function init_human_simulation(rotation_angleIn){
+	console.log("Human simulation called :"+rotation_angleIn);
 	//get canvas and set up call backs
 	sceneEl = document.querySelector('a-scene');
-  Sim_human_imageSphereEl = sceneEl.querySelector("[id='360_image_sky']");
+    Sim_human_imageSphereEl = sceneEl.querySelector("[id='360_image_sky']");
 
 	//THIS WOULD CHANGE IT SO THE STARTING POSITION OF THE HEAD IS SET AT THE START OF THE TRIAL INSTEAD OF ASSUMED ZERO
-	//rotation_angle_sim_human_head = Sim_human_imageSphereEl.getAttribute('rotation').y;
-	//setInterval(move_head, 5000);
+	rotation_angle_sim_human_head = rotation_angleIn;
+	
 
 
 	setInterval(head_movement_timed, 50);
@@ -43,6 +44,7 @@ function init_human_simulation(){
 
 function move_head(){
 	left_arrow = document.getElementById("left_arrow");
+	console.log("Left human arrow properties:"+left_arrow);
 	left_arrow_side = left_arrow.style.visibility;
 	right_arrow = document.getElementById("right_arrow");
 	right_arrow_side = right_arrow.style.visibility;
@@ -113,7 +115,6 @@ function head_movement_timed(){
 			move_direction = "none";
 			probabilisitic_movement = false;
 		}
-		//console.log(difference);
 	}
 	else if (move_direction == "right"){
 		var current_time_movement = new Date();
@@ -126,8 +127,7 @@ function head_movement_timed(){
 		if(difference > 2){
 			move_direction = "none";
 			probabilisitic_movement = false;
-		}
-		//console.log(difference);
+		}		
 	}
 }
 
@@ -135,21 +135,7 @@ function move_head_left(){
 	start_time_movement = new Date();
 	move_direction = "left";
 	return;
-	// var current_rotation = Sim_human_imageSphereEl.getAttribute('rotation').y;
-	// Sim_human_imageSphereEl.setAttribute('rotation', {x: 0, y: current_rotation - 10, z: 0});
-	// return;
-	// var start_time = new date();
-	// move_direction = "left";
-	// while(move_direction!="none"){
-		// var current_time_movement = new date();
-		// var difference = (current_time_movement - start_time) / 1000;
-		// var current_rotation = Sim_human_imageSphereEl.getAttribute('rotation').y;
-		// Sim_human_imageSphereEl.setattribute('rotation', {x: 0, y: current_rotation + 1, z: 0});
-
-		// if(difference > 10){
-			// move_direction = "none";
-		// }
-	// }
+	
 }
 
 function move_head_right(){
