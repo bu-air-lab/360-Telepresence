@@ -8,28 +8,32 @@ var trialNum;
 var trialType;
 var startRotationDeg;
 
+var trialObj = new Object();
+/*
 var trialStarts = [
-  325, 43, //1
-  325, 212, //2
-  330, 273, //3
+  320, 43, //1
+  320, 212, //2
+  335, 273, //3
   335, 221, //4
-  305, 78, //5
-  325, 141, //6
-  300, 257, //7
-  330, 29, //8
+  320, 78, //5
+  320, 141, //6
+  320, 257, //7
+  335, 29, //8
   335, 265, //9
-  315, 194 //10
+  320, 194 //10
 ];
+*/
 
-function test_simulation(trial){
-  trialNum = trial;
-  var startFrameNum = trialStarts[(Math.floor(trial * (1/2))) * 2];//(((Math.floor(Math.random() * 9)) * 5) + 300);
-  startRotationDeg = trialStarts[((Math.floor(trial * (1/2))) * 2) + 1];//Math.floor(Math.random() * 360);
+var possibleStarts = [300, 310, 345, 355];
+
+function test_simulation(){
+  var trial = Math.floor(Math.random() * 2);
+  var startFrameNum = possibleStarts[Math.floor(Math.random() * possibleStarts.length)];//(Math.round(Math.random()) * 15) + 320;//trialStarts[(Math.floor(trial * (1/2))) * 2];//(((Math.floor(Math.random() * 9)) * 5) + 300);
+  startRotationDeg = Math.floor(Math.random() * 360); //trialStarts[((Math.floor(trial * (1/2))) * 2) + 1];
   var frame = "frames/" + startFrameNum + "_frame.jpg";
   trial_complete = false;
   var start_img = document.getElementById("360_image_sky")
   start_img.setAttribute('src', frame);
-  init_human_simulation(startRotationDeg);
   start_img.setAttribute('rotation', {x: 0, y: startRotationDeg, z: 0});
 
 	var ImgDet_arrow_left = document.getElementById("left_arrow_aframe");
@@ -46,7 +50,17 @@ function test_simulation(trial){
     baseline = false;
     disable_arrows = false;
   }
-  alert("Started " + trialType + " Trial at frame " + startFrameNum + "with head oriented at " + startRotationDeg + "degrees.");
+  console.log("Trial-Type: " + trialType);
+  //alert("Started " + trialType + " Trial at frame " + startFrameNum + "with head oriented at " + startRotationDeg + "degrees.");
+  trialObj.Type = trialType;
+  trialObj.StartFrame = startFrameNum;
+  trialObj.StartRotation = startRotationDeg;
+  if(startFrameNum === 300 || startFrameNum === 355){
+    trialObj.Radius = 10;
+  }else{
+    trialObj.Radius = 6;
+  }
+  init_human_simulation(startRotationDeg);
   trialStart = new Date();
   return;
 }

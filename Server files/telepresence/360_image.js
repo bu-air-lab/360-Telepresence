@@ -6,6 +6,9 @@ var frame_number;
 //var stop_randomization = false;
 ////////////////////
 
+var movementInterval;
+var angleInterval;
+
 disable_arrows = true;
 
 function init_360_image(){
@@ -20,8 +23,8 @@ function init_360_image(){
 	img_src_frame_number = parseInt(img_src_frame_number);
 	console.log('Image src is :'+img_src_frame_number);
 	frame_number = img_src_frame_number;
-	setInterval(random_movement_generator, 4000);
-	setInterval(printAngle, 1000);
+	movementInterval = setInterval(random_movement_generator, 4000);
+	angleInterval = setInterval(printAngle, 1000);
 }
 
 function printAngle(){
@@ -29,17 +32,21 @@ function printAngle(){
 }
 
 function random_movement_generator(){
+	if(trial_complete === true){
+		clearInterval(movementInterval);
+		clearInterval(angleInterval);
+	}
 	console.log("Code reaches here");
 	var rand_number;
 	if(baseline == false){
 		if(frame_number == 325){
-			var action_space = [1,3,4]; 
+			var action_space = [1,3,4];
 			console.log("Restricting backward movement");
 			rand_number = Math.floor(Math.random() * 3);
 			rand_number = action_space[rand_number];
 		}
 		else if(frame_number == 330){
-			var action_space = [2,3,4]; 
+			var action_space = [2,3,4];
 			console.log("Restricting forward movement");
 			rand_number = Math.floor(Math.random() * 3);
 			rand_number = action_space[rand_number];

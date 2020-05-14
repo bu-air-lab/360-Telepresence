@@ -7,6 +7,9 @@ var tv_location=0;
 var current_arrow = "left";
 var invert_arrows = false;
 
+var arrowInterval;
+var objDetectionInterval;
+
 //VARIABLE CHANGED//
 //var disable_arrows = false;
 ////////////////////
@@ -17,10 +20,10 @@ var invert_arrows = false;
 // var frame_330_max_angle = 12;
 var frame_325_min_angle = 300;
 var frame_325_max_angle = 335;
-var frame_325_mid_angle = 318; 
+var frame_325_mid_angle = 318;
 var frame_330_min_angle = 335;
 var frame_330_max_angle = 15;
-var frame_330_mid_angle =0;   
+var frame_330_mid_angle =0;
 
 //VARIABLE CHANGED//
 //var trial_complete = false;
@@ -34,8 +37,8 @@ function disable_all_arrows(){
 function preload(){
   //img = loadImage('images/cat2.JPG');
   img = document.getElementById('detection_img');
-  setInterval(run_object_detection, 3000);
-  setInterval(change_arrows, 100);
+  objDetectionInterval = setInterval(run_object_detection, 3000);
+  arrowInterval = setInterval(change_arrows, 100);
   //setInterval(check_inverted_arrows, 100);
 }
 
@@ -109,7 +112,17 @@ function disable(arrow_side){
 	//ImgDet_arrow.setAttribute("position", "0 0 1");
 }
 
+function downloadTrialData(data, trialName){
+	let dataStr = JSON.stringify(data);
+	let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
 
+	let exportFileDefaultName = trialName;
+
+	let linkElement = document.createElement('a');
+	linkElement.setAttribute('href', dataUri);
+	linkElement.setAttribute('download', exportFileDefaultName);
+	linkElement.click();
+}
 
 function change_arrows(){
 	console.log("Frame number in img recog is "+frame_number);
@@ -127,8 +140,16 @@ function change_arrows(){
 			disable("left_arrow_aframe");
 			current_arrow = "none";
 			trial_complete = true;
-			alert("Trial " + trialNum + " complete:  TrialType: " + trialType + "  Total Time: " + trialDifference + "ms  Total Robot Movements: " + movements);
-			return;
+			trialObj.StartTime = trialStart;
+			trialObj.EndTime = trialEnd;
+			trialObj.TotalTime = trialDifference;
+			trialObj.TotalMovements = movements;
+			//alert("Trial " + trialNum + " complete:  TrialType: " + trialType + "  Total Time: " + trialDifference + "ms  Total Robot Movements: " + movements);
+			var fileName = trialObj.Type + "_" + trialObj.StartFrame + "_" + trialObj.StartRotation + ".json";
+			downloadTrialData(trialObj, fileName);
+			clearInterval(arrowInterval);
+			clearInterval(objDetectionInterval);
+			setInterval((function() { window.location.reload(); }), 3000);
 		}
 		else if ((modified_rotation_angle < frame_325_min_angle) && modified_rotation_angle > (frame_325_mid_angle-180)){
 			console.log("Should enable right arrow");
@@ -148,13 +169,21 @@ function change_arrows(){
 		if(modified_rotation_angle > frame_330_min_angle || modified_rotation_angle < frame_330_max_angle){
 			var trialEnd = new Date();
 			var trialDifference = trialEnd - trialStart;
-			console.log("TV detected in frame 330");
+			console.log("TV detected in frame 325");
 			disable("right_arrow_aframe");
 			disable("left_arrow_aframe");
 			current_arrow = "none";
 			trial_complete = true;
-			alert("Trial " + trialNum + " complete:  TrialType: " + trialType + "  Total Time: " + trialDifference + "ms  Total Robot Movements: " + movements);
-			return;
+			trialObj.StartTime = trialStart;
+			trialObj.EndTime = trialEnd;
+			trialObj.TotalTime = trialDifference;
+			trialObj.TotalMovements = movements;
+			//alert("Trial " + trialNum + " complete:  TrialType: " + trialType + "  Total Time: " + trialDifference + "ms  Total Robot Movements: " + movements);
+			var fileName = trialObj.Type + "_" + trialObj.StartFrame + "_" + trialObj.StartRotation + ".json";
+			downloadTrialData(trialObj, fileName);
+			clearInterval(arrowInterval);
+			clearInterval(objDetectionInterval);
+			setInterval((function() { window.location.reload(); }), 3000);
 		}
 		else if(modified_rotation_angle < frame_330_min_angle && modified_rotation_angle > 180){
 			console.log("Should enable right arrow");
@@ -192,7 +221,7 @@ function change_arrows(){
 		// disable("left_arrow");
 		// current_arrow = "left";
 	// }
-	
+
 	//MOVED IF STATEMENT
 	if(tv_location == 0 || disable_arrows){
 		console.log("Disabling arrows due to no tv or bool disable_arrows set.");

@@ -15,7 +15,7 @@ var robot_current_loc_map = 0;
     //setInterval(get_robot_pose, 1000);
     // Connect to ROS.
     ros = new ROSLIB.Ros({
-      url : 'ws://192.168.1.6:9090'
+      url : 'ws://192.168.1.128:9090'
     });
 
      // Create the main viewer.
