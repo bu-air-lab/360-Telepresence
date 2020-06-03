@@ -11,14 +11,14 @@ function init_360_vid(){
 
 function sleep (time) {
   return new Promise((resolve) => setTimeout(resolve, time));
-} 
+}
 
 function write_time(){
 	var videoEl = document.getElementById('360_vid');
 	document.querySelector('.content .old_time').innerHTML = videoEl.currentTime;
-	
+
 }
- 
+
 function keyDown(e){
 	if (done === false){
 		return;
@@ -27,7 +27,7 @@ function keyDown(e){
 		case 11:
 			done = false;
 			while(done===false){
-				
+
 				if(videoEl.currentTime > (old_videoEl-10)){
 					videoEl.playbackRate = -1;
 					alert("Here");
@@ -37,12 +37,12 @@ function keyDown(e){
 					done = true;
 				}
 			}
-			
+
 			break;
 		case 37:
 			var videoEl = document.getElementById('360_vid');
 			videoEl.currentTime = videoEl.currentTime-10;
-			
+
 			var videoEl = document.getElementById('360_vid');
 			var old_videoEl = videoEl.currentTime;
 			done=false;
@@ -63,13 +63,13 @@ function keyDown(e){
             },80);
 			break;
 			//document.querySelector('.content .old_time').innerHTML = old_videoEl;
-				
+
 //				sleep(50).then(() => {
 //					videoEl.currentTime = videoEl.currentTime-1;
 					// Do something after the sleep!
 //				});
 				//document.querySelector('.content .current_time').innerHTML = videoEl.currentTime;
-			
+
 		case 38:
 			alert('Up key pressed');
 			break;
@@ -94,26 +94,27 @@ function init_pano(canvasid){
 	window.onmouseup = mouseUp;
 	window.onmousewheel = mouseScroll;
 	window.onkeydown = keyDown;
+	document.getElementById("FOV_Slider").oninput = sliderMove;
 	draw();
 	setInterval(draw, 50000/FPS);
 	setInterval(frame_increment, 50000/FPS);
 	}
-	
+
 function imageLoaded(){
 	var   buffer = document.createElement("canvas");
 	var   buffer_ctx = buffer.getContext ("2d");
-	
+
 	//set buffer size
 	buffer.width = img.width;
 	buffer.height = img.height;
- 	
+
  	//draw image
 	buffer_ctx.drawImage(img,0,0);
- 		
+
  	//get pixels
  	var buffer_imgdata = buffer_ctx.getImageData(0, 0,buffer.width,buffer.height);
  	var buffer_pixels = buffer_imgdata.data;
- 		
+
  	//convert imgdata to float image buffer
  	img_buffer = new Array(img.width*img.height*3);
  	for(var i=0,j=0;i<buffer_pixels.length;i+=4, j+=3){
@@ -127,11 +128,11 @@ function frame_increment(){
 	frame_number = frame_number+5;
 	img.src = 'frames/'+frame_number+'_frame.jpg';
 }
-	
+
 function mouseDown(e){
 	mouseIsDown=true;
 	mouseDownPosLastX=e.clientX;
-	mouseDownPosLastY=e.clientY;	
+	mouseDownPosLastY=e.clientY;
 }
 
 function mouseMove(e){
@@ -140,7 +141,7 @@ function mouseMove(e){
 		cam_pitch+=0.5*(e.clientY-mouseDownPosLastY);
 		cam_pitch=Math.min(180,Math.max(0,cam_pitch));
 		mouseDownPosLastX=e.clientX;
-		mouseDownPosLastY=e.clientY;	
+		mouseDownPosLastY=e.clientY;
 		draw();
 		}
 }
@@ -156,18 +157,25 @@ function mouseScroll(e){
 	draw();
 }
 
+function sliderMove(){
+	var sV = document.getElementById("FOV_Slider").value;
+	console.log("FOV should be " + sV);
+	cam_fov = sV;
+	draw();
+}
+
 
 function renderPanorama(canvas){
 	if(canvas!=null && img_buffer!=null){
 		var ctx = canvas.getContext("2d");
 		var imgdata = ctx.getImageData(0, 0,canvas.width,canvas.height);
 		var pixels = imgdata.data;
-	
+
 		var src_width=img.width;
 		var src_height=img.height;
 		var dest_width=canvas.width;
 		var dest_height=canvas.height;
-		
+
 		//calculate camera plane
 		var theta_fac=src_height/Math.PI;
 		var phi_fac=src_width*0.5/Math.PI
@@ -185,34 +193,34 @@ function renderPanorama(canvas){
 		var camPlaneOriginX=camDirX + 0.5*camUpX - 0.5*camRightX;
 		var camPlaneOriginY=camDirY + 0.5*camUpY - 0.5*camRightY;
 		var camPlaneOriginZ=camDirZ + 0.5*camUpZ - 0.5*camRightZ;
-		
+
 		//render image
 		var	i,j;
 		for(i=0;i<dest_height;i++){
 			for(j=0;j<dest_width;j++){
 				var	fx=j/dest_width;
 				var	fy=i/dest_height;
-				
+
 				var	rayX=camPlaneOriginX + fx*camRightX - fy*camUpX;
 				var	rayY=camPlaneOriginY + fx*camRightY - fy*camUpY;
 				var	rayZ=camPlaneOriginZ + fx*camRightZ - fy*camUpZ;
 				var	rayNorm=1.0/Math.sqrt(rayX*rayX + rayY*rayY + rayZ*rayZ);
-				
+
 				var	theta=Math.acos(rayY*rayNorm);
     			var	phi=Math.atan2(rayZ,rayX) + Math.PI;
     			var	theta_i=Math.floor(theta_fac*theta);
     			var	phi_i=Math.floor(phi_fac*phi);
-    			
+
     			var	dest_offset=4*(i*dest_width+j);
 				var	src_offset=3*(theta_i*src_width + phi_i);
-				
+
 				pixels[dest_offset]     = img_buffer[src_offset];
 				pixels[dest_offset+1]   = img_buffer[src_offset+1];
 				pixels[dest_offset+2]   = img_buffer[src_offset+2];
 				//pixels[dest_offset+3] = img_buffer[src_offset+3];
 				}
 			}
- 		
+
  		//upload image data
  		ctx.putImageData(imgdata, 0, 0);
 	}
@@ -230,28 +238,28 @@ function drawRoundedRect(ctx,ox,oy,w,h,radius){
 	ctx.arc(ox + radius,oy + h - radius, radius,Math.PI/2,Math.PI, false);
 	ctx.lineTo(ox,oy + radius);
 	ctx.arc(ox + radius,oy + radius, radius,Math.PI,3*Math.PI/2, false);
-	ctx.fill();	
+	ctx.fill();
 }
 
 
 function draw(){
 	if(pano_canvas!=null && pano_canvas.getContext!=null){
     	var ctx = pano_canvas.getContext("2d");
-    	
+
     	//clear canvas
     	ctx.fillStyle = "rgba(0, 0, 0, 1)";
     	ctx.fillRect(0,0,pano_canvas.width,pano_canvas.height);
-			
+
 		//render paromana direct
 		var startTime = new Date();
 			renderPanorama(pano_canvas);
 		var endTime = new Date();
-		
+
 		//draw info text
-		if(displayInfo==true){	
+		if(displayInfo==true){
 			ctx.fillStyle = "rgba(255,255,255,0.75)";
 			drawRoundedRect(ctx,20,pano_canvas.height-60-20,180,60,7);
-			
+
 			ctx.fillStyle = "rgba(0, 0, 0, 1)";
 			ctx.font="10pt helvetica";
 			ctx.fillText("Canvas = " +  pano_canvas.width + "x" + pano_canvas.height,30,pano_canvas.height-60);

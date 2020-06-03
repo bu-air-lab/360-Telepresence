@@ -27,7 +27,7 @@ function init_human_simulation(rotation_angleIn){
 
 	//THIS WOULD CHANGE IT SO THE STARTING POSITION OF THE HEAD IS SET AT THE START OF THE TRIAL INSTEAD OF ASSUMED ZERO
 	rotation_angle_sim_human_head = rotation_angleIn;
-	
+
 
 
 	setInterval(head_movement_timed, 50);
@@ -127,7 +127,7 @@ function head_movement_timed(){
 		if(difference > 2){
 			move_direction = "none";
 			probabilisitic_movement = false;
-		}		
+		}
 	}
 }
 
@@ -135,7 +135,7 @@ function move_head_left(){
 	start_time_movement = new Date();
 	move_direction = "left";
 	return;
-	
+
 }
 
 function move_head_right(){
@@ -151,7 +151,14 @@ function degrees_to_radians(degrees){
 
 function set_sim_human_fov_marker(){
 	var current_fov_rotation = document.getElementById("sim_human_fov");
-	var human_head_angle_radians = degrees_to_radians(rotation_angle_sim_human_head%360);
+	var human_head_angle_radians;
+	if(frame_number > 310){
+		human_head_angle_radians = degrees_to_radians((rotation_angle_sim_human_head + 270)%360);
+	}else if(frame_number === 310){
+		human_head_angle_radians = degrees_to_radians((rotation_angle_sim_human_head + 235)%360);
+	}else{
+		human_head_angle_radians = degrees_to_radians((rotation_angle_sim_human_head + 180)%360);
+	}
 	console.log("Human head angle is "+(rotation_angle_sim_human_head+1440)%360);
 	document.getElementById("sim_human_fov").style.transform = "rotate("+human_head_angle_radians+"rad)";
 }
