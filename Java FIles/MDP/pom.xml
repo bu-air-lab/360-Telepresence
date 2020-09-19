@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>BU-AIR</groupId>
+  <artifactId>MDP</artifactId>
+  <version>1.0.0</version>
+  <name>360-Object-MDP</name>
+  <description>Test of the MDP for 360 object suggestion</description>
+  
+  <dependencies>
+  	<dependency>
+		<groupId>edu.brown.cs.burlap</groupId>
+		<artifactId>burlap</artifactId>
+		<version>3.0.0</version>
+	</dependency>
+  </dependencies>
+
+
+  <build>
+  	<plugins>
+  		<plugin>
+		  <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>1.2.1</version>
+		  <executions>
+            <execution>
+                <goals>
+                    <goal>java</goal>
+                </goals>
+            </execution>
+        </executions>
+		  <configuration>
+		  	<mainClass>turnSuggestions.BasicBehavior</mainClass>
+		  </configuration>
+		</plugin>
+  	</plugins>
+  </build>
+  
+  <properties>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
+</properties>
+</project>
+
