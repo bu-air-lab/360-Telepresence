@@ -23,7 +23,7 @@ function init_human_simulation(rotation_angleIn){
 	console.log("Human simulation called :"+rotation_angleIn);
 	//get canvas and set up call backs
 	sceneEl = document.querySelector('a-scene');
-    Sim_human_imageSphereEl = sceneEl.querySelector("[id='360_image_sky']");
+  Sim_human_imageSphereEl = sceneEl.querySelector("[id='360_image_sky']");
 
 	//THIS WOULD CHANGE IT SO THE STARTING POSITION OF THE HEAD IS SET AT THE START OF THE TRIAL INSTEAD OF ASSUMED ZERO
 	rotation_angle_sim_human_head = rotation_angleIn;
@@ -108,6 +108,7 @@ function head_movement_timed(){
 		var difference = (current_time_movement - start_time_movement) / 1000;
 		Sim_human_imageSphereEl = sceneEl.querySelector("[id='360_image_sky']");
 		var current_rotation = Sim_human_imageSphereEl.getAttribute('rotation').y;
+		console.log("Human head angle now 2 is "+current_rotation);
 		Sim_human_imageSphereEl.setAttribute('rotation', {x: 0, y: current_rotation - 1, z: 0});
 		rotation_angle_sim_human_head = rotation_angle_sim_human_head - 1;
 		set_sim_human_fov_marker();
@@ -123,6 +124,7 @@ function head_movement_timed(){
 		var current_rotation = Sim_human_imageSphereEl.getAttribute('rotation').y;
 		Sim_human_imageSphereEl.setAttribute('rotation', {x: 0, y: current_rotation + 1, z: 0});
 		rotation_angle_sim_human_head = rotation_angle_sim_human_head + 1;
+		console.log("Human head angle now 2 is "+current_rotation);
 		set_sim_human_fov_marker();
 		if(difference > 2){
 			move_direction = "none";
@@ -152,13 +154,7 @@ function degrees_to_radians(degrees){
 function set_sim_human_fov_marker(){
 	var current_fov_rotation = document.getElementById("sim_human_fov");
 	var human_head_angle_radians;
-	if(frame_number > 310){
-		human_head_angle_radians = degrees_to_radians((rotation_angle_sim_human_head + 270)%360);
-	}else if(frame_number === 310){
-		human_head_angle_radians = degrees_to_radians((rotation_angle_sim_human_head + 235)%360);
-	}else{
-		human_head_angle_radians = degrees_to_radians((rotation_angle_sim_human_head + 180)%360);
-	}
-	console.log("Human head angle is "+(rotation_angle_sim_human_head+1440)%360);
+	var human_head_angle_radians = degrees_to_radians(rotation_angle_sim_human_head%360);
+	console.log("Human head angle is now"+(rotation_angle_sim_human_head+1440)%360);
 	document.getElementById("sim_human_fov").style.transform = "rotate("+human_head_angle_radians+"rad)";
 }

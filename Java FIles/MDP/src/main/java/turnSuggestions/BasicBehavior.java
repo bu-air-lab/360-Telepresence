@@ -75,6 +75,7 @@ public class BasicBehavior {
 	viewState initialState;
 	HashableStateFactory hashingFactory;
 	SimulatedEnvironment env;
+	getState getS;
 
 
 	public static void main(String[] args) throws IOException {
@@ -88,6 +89,13 @@ public class BasicBehavior {
 		*/
 
 		String mapString = ""; //Will contain the input from the file
+
+
+
+		getState getCurrState = new getState();
+		mapString = getCurrState.readServerFile();
+		System.out.println("Server read Successful:"+mapString);
+
 
 		//Reads in map from the file
 		try {
@@ -134,6 +142,7 @@ public class BasicBehavior {
 
 	public BasicBehavior(int[] map, int initPos, int goalPos) {
 
+		getS = new getState();
 		cvdg = new circleView(map, goalPos);
 		tf = new circleTerminalf(cvdg.goalx);
 		cvdg.setTf(tf);
@@ -172,8 +181,11 @@ public class BasicBehavior {
 	public void QLearningExample(String outputPath){
 
 		QLearning agent = new QLearning(domain, 0.99, hashingFactory, 0., 1.);
-
+		String current_action_set = "";
 		int episodes = 250000;
+
+		updateAction updateCurrAction = new updateAction();
+
 
 		/*
 		Episode best = null;
@@ -233,9 +245,12 @@ public class BasicBehavior {
 						bestq = q.q;
 					}
 				}
+				current_action_set = current_action_set + bestqV.s.toString() + " " + bestqV.a.toString() + " " + bestqV.q + "\n";
 				writer.write(bestqV.s.toString() + " " + bestqV.a.toString() + " " + bestqV.q + "\n");
 		    }
 		    writer.close();
+		    System.out.println(current_action_set);
+				updateCurrAction.updateServerFile(current_action_set);
 		    System.out.println("Successfully wrote QTable.txt");
 		} catch (IOException e) {
 		    System.out.println("Failed to write QTable.txt.");

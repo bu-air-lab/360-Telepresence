@@ -16,9 +16,9 @@
 	<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js" type="text/javascript"></script>
   <script type="text/javascript" src="init_trial.js?version=123321421212122231232212312312313123123323"></script>
 	<script type="text/javascript" src="simulated_human.js?version=10125"></script>
-	<script type="text/javascript" src="360_image.js?version=11028200001223231213222111212112121212111121112212128"></script>
-	<script type="text/javascript" src="ros_360.js?version=10212302111123111111232212133111323211211211221232"></script>
-	<script src="obj_det_coco.js?version=12121202213111221121212113111124"></script>
+	<script type="text/javascript" src="360_image.js?version=2122111028200001223231213222111212112121212111121112212128"></script>
+	<script type="text/javascript" src="ros_360.js?version=102123022111222123111111232212133111323211211211221232"></script>
+	<script src="obj_det_coco.js?version=121212022131112211221212113111124"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 
@@ -33,7 +33,7 @@
 			//init_360_vid();
       test_simulation();
 			init_ros_360();
-			//init_human_simulation();
+			// init_human_simulation();
 			init_360_image();
 
 		}
@@ -156,12 +156,13 @@
 				</center>
 				<center>
 					<div class="col-md-6" id="embedded_scene">
-						<img id="detection_img" src="frames/300_frame.jpg" width="500" height="300" style="display:none;"/>
+						<img id="detection_img" src="frames/30_frame.jpg" width="500" height="300" style="display:none;"/>
 						<a-scene embedded>
+						<!-- <a-entity position="0 0 3.8"> -->
 						<a-entity position="0 0 3.8">
 							<a-camera id="camera" fov="90"></a-camera>
 						</a-entity>
-						<a-sky src="frames/300_frame.jpg" id="360_image_sky" rotation="0 180 0"></a-sky>
+						<a-sky src="frames/30_frame.jpg" id="360_image_sky" rotation="0 0 0"></a-sky>
 
 						<a-assets>
 							<image id="left_arrow_asset"  src="images/left_arrow.png"> </image>

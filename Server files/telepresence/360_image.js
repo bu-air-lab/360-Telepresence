@@ -33,6 +33,29 @@ function init_360_image(){
 	frame_number = img_src_frame_number;
 	movementInterval = setInterval(random_movement_generator, 4000);
 	angleInterval = setInterval(printAngle, 1000);
+	updateState = setInterval(updateCurrentState, 1000);
+}
+
+function updateCurrentState()
+{
+	jQuery.ajax({
+                type: "POST",
+                url: 'updateState.php',
+                dataType: 'json',
+                data: {functionname: 'updateCurrentState', arguments: [frame_number]},
+
+                success: function (obj, textstatus) {
+                              if( !('error' in obj) ) {
+                                    console.log("Collab value of the information is :"+frame_number+":"+obj.result);
+                                    // document.getElementById('collabButton').style.display = 'none';
+                                    // document.getElementById('noCollabButton').style.display = 'none';
+
+                              }
+                              else {
+                                  console.log("Collab Error is:"+obj.error);
+                              }
+                        }
+                });
 }
 
 function printAngle(){
@@ -133,7 +156,7 @@ function frame_changer(e){
 
 		case 38:
 			go_forward();
-			advance_robot_location();
+			// advance_robot_location();
 			changeMoveDirection("none");
 			console.log("Moving forward");
 			document.getElementById("ArrowUpBox").style.fill = "#404040"
@@ -148,7 +171,7 @@ function frame_changer(e){
 
 		case 40:
 			go_back();
-			reverse_robot_location();
+			// reverse_robot_location();
 			changeMoveDirection("none");
 			console.log("Moving back");
 			document.getElementById("ArrowDownBox").style.fill = "#404040"
@@ -205,7 +228,8 @@ function sliderMove(){
 }
 
 function go_back(){
-	if (frame_number>300){
+	console.log("Current frame number of going back is: "+frame_number)
+	if (frame_number>0){
 		frame_number = frame_number-5;
 		var dummy_frame_obj_detection = document.getElementById('detection_img');
 		dummy_frame_obj_detection.setAttribute('src', 'frames/'+frame_number+'_frame.jpg');

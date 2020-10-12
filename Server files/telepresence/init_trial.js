@@ -24,7 +24,8 @@ var trialStarts = [
 ];
 */
 
-var possibleStarts = [300, 310, 345, 355];
+var possibleStarts = [10];
+// var possibleStarts = [300, 310, 345, 355];
 
 function test_simulation(){
   var trial = Math.floor(Math.random() * 2);
@@ -34,7 +35,7 @@ function test_simulation(){
   trial_complete = false;
   var start_img = document.getElementById("360_image_sky")
   start_img.setAttribute('src', frame);
-  start_img.setAttribute('rotation', {x: 0, y: startRotationDeg, z: 0});
+  start_img.setAttribute('rotation', {x: 0, y: 0, z: 0});
 
 	var ImgDet_arrow_left = document.getElementById("left_arrow_aframe");
 	ImgDet_arrow_left.setAttribute("visible",false);
@@ -60,7 +61,7 @@ function test_simulation(){
   }else{
     trialObj.Radius = 6;
   }
-  init_human_simulation(startRotationDeg);
+  init_human_simulation(0);
   trialStart = new Date();
   return;
 }
