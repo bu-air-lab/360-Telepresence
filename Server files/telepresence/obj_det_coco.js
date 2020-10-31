@@ -38,7 +38,7 @@ function preload(){
   //img = loadImage('images/cat2.JPG');
   img = document.getElementById('detection_img');
   objDetectionInterval = setInterval(run_object_detection, 3000);
-  arrowInterval = setInterval(change_arrows, 100);
+  //arrowInterval = setInterval(change_arrows, 100);
   //setInterval(check_inverted_arrows, 100);
 }
 

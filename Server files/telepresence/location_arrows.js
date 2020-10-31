@@ -4,11 +4,12 @@ function init_arrow_simulation(){
 	//get canvas and set up call backs
 	//document.querySelector('.arrow .arrow_side').innerHTML = current_arrow;
 	setInterval(change_arrows, 5000);
-	
+
 }
 
 function enable(arrow_side){
 	document.getElementById(arrow_side).style.visibility = "visible";
+	current_arrow = arrow_side;
 }
 function disable(arrow_side){
 	document.getElementById(arrow_side).style.visibility = "hidden";
@@ -20,11 +21,10 @@ function change_arrows(){
 	if(current_arrow == "left"){
 		enable("left_arrow");
 		disable("right_arrow");
-		current_arrow = "right";
+
 	}
 	else{
 		enable("right_arrow");
 		disable("left_arrow");
-		current_arrow = "left";
 	}
 }

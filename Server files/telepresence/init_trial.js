@@ -45,11 +45,11 @@ function test_simulation(){
   if((trial % 2) === 0){
     trialType = "Baseline";
     baseline = true;
-    disable_arrows = true;
+    //disable_arrows = true;
   }else{
     trialType = "Simulated Human"
     baseline = false;
-    disable_arrows = false;
+    //disable_arrows = false;
   }
   console.log("Trial-Type: " + trialType);
   //alert("Started " + trialType + " Trial at frame " + startFrameNum + "with head oriented at " + startRotationDeg + "degrees.");

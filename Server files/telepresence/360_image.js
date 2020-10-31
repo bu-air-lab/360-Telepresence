@@ -8,10 +8,50 @@ var frame_number;
 
 var movementInterval;
 var angleInterval;
+var updateArrows;
 
-disable_arrows = true;
+disable_arrows = false;
+
+function execute_actions(){
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("GET", "current_action.txt", false);
+  xmlhttp.send();
+	console.log("XML Status: " + xmlhttp.status);
+	console.log("XML readyState: " + xmlhttp.readyState);
+  if (xmlhttp.status==200 && xmlhttp.readyState == XMLHttpRequest.DONE) {
+		console.log(xmlhttp.responseText);
+  }
+	var act_arr = xmlhttp.responseText.split("\n");
+
+
+	function furtherSplit(item, index, arr) {
+  	arr[index] = item.split(" ");
+	}
+	function posMod360(n) {
+    return ((n%360)+360)%360;
+	}
+
+	act_arr.forEach(furtherSplit);
+	console.log(act_arr[0][0] + " " + act_arr[0][1] + " " + act_arr[0][2]);
+	var wedge = floor(posMod360(rotation_angle_sim_human_head) / 45);
+	console.log("Current Wedge: " + wedge);
+	console.log("Current suggested action: " + act_arr[wedge][1]);
+	if(act_arr[wedge][1] == "left"){
+		enable("left_arrow_aframe");
+		console.log("Enabling Left Arrow");
+	}else if(act_arr[wedge][1] == "right"){
+		enable("right_arrow_aframe");
+		console.log("Enabling Right Arrow");
+	}else{
+		disable("left_arrow_aframe");
+		disable("right_arrow_aframe");
+		console.log("Disabling All Arrows");
+	}
+}
+
 
 function init_360_image(){
+
 	//get canvas and set up call backs
 	window.onkeydown = frame_changer;
 	window.onkeyup = visual_reset
@@ -34,6 +74,7 @@ function init_360_image(){
 	movementInterval = setInterval(random_movement_generator, 4000);
 	angleInterval = setInterval(printAngle, 1000);
 	updateState = setInterval(updateCurrentState, 1000);
+	updateArrows = setInterval(execute_actions, 1000);
 }
 
 function updateCurrentState()

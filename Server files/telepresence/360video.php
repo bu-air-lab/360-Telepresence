@@ -14,11 +14,12 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
 	<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js" type="text/javascript"></script>
-  <script type="text/javascript" src="init_trial.js?version=123321421212122231232212312312313123123323"></script>
+  <script type="text/javascript" src="init_trial.js?version=123321421212122231232212312312313123123324"></script>
+  <script type="text/javascript" src="location_arrows.js?version=2"></script>
 	<script type="text/javascript" src="simulated_human.js?version=10125"></script>
-	<script type="text/javascript" src="360_image.js?version=2122111028200001223231213222111212112121212111121112212128"></script>
+	<script type="text/javascript" src="360_image.js?version=212211102820000122323121322211121211212121211112111221212803"></script>
 	<script type="text/javascript" src="ros_360.js?version=102123022111222123111111232212133111323211211211221232"></script>
-	<script src="obj_det_coco.js?version=121212022131112211221212113111124"></script>
+	<script src="obj_det_coco.js?version=121212022131112211221212113111125"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 
