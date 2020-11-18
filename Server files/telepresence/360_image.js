@@ -12,14 +12,16 @@ var updateArrows;
 
 disable_arrows = false;
 
+function posMod360(n) {
+  return ((n%360)+360)%360;
+}
+
 function execute_actions(){
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.open("GET", "current_action.txt", false);
   xmlhttp.send();
-	console.log("XML Status: " + xmlhttp.status);
-	console.log("XML readyState: " + xmlhttp.readyState);
   if (xmlhttp.status==200 && xmlhttp.readyState == XMLHttpRequest.DONE) {
-		console.log(xmlhttp.responseText);
+		console.log("Current Action File: \n" + xmlhttp.responseText);
   }
 	var act_arr = xmlhttp.responseText.split("\n");
 
@@ -27,20 +29,18 @@ function execute_actions(){
 	function furtherSplit(item, index, arr) {
   	arr[index] = item.split(" ");
 	}
-	function posMod360(n) {
-    return ((n%360)+360)%360;
-	}
 
 	act_arr.forEach(furtherSplit);
-	console.log(act_arr[0][0] + " " + act_arr[0][1] + " " + act_arr[0][2]);
 	var wedge = floor(posMod360(rotation_angle_sim_human_head) / 45);
 	console.log("Current Wedge: " + wedge);
 	console.log("Current suggested action: " + act_arr[wedge][1]);
 	if(act_arr[wedge][1] == "left"){
 		enable("left_arrow_aframe");
+    disable("right_arrow_aframe");
 		console.log("Enabling Left Arrow");
 	}else if(act_arr[wedge][1] == "right"){
 		enable("right_arrow_aframe");
+    disable("left_arrow_aframe");
 		console.log("Enabling Right Arrow");
 	}else{
 		disable("left_arrow_aframe");
@@ -48,7 +48,6 @@ function execute_actions(){
 		console.log("Disabling All Arrows");
 	}
 }
-
 
 function init_360_image(){
 
@@ -69,12 +68,12 @@ function init_360_image(){
 	img_src_frame_number = img_src_frame_number.replace("frames/","");
 	img_src_frame_number = img_src_frame_number.replace("_frame.jpg","");
 	img_src_frame_number = parseInt(img_src_frame_number);
-	console.log('Image src is :'+img_src_frame_number);
+	console.log('Image src is: '+img_src_frame_number);
 	frame_number = img_src_frame_number;
 	movementInterval = setInterval(random_movement_generator, 4000);
 	angleInterval = setInterval(printAngle, 1000);
 	updateState = setInterval(updateCurrentState, 1000);
-	updateArrows = setInterval(execute_actions, 1000);
+  updateArrows = setInterval(execute_actions, 1000);
 }
 
 function updateCurrentState()
@@ -83,24 +82,24 @@ function updateCurrentState()
                 type: "POST",
                 url: 'updateState.php',
                 dataType: 'json',
-                data: {functionname: 'updateCurrentState', arguments: [frame_number]},
+                data: {functionname: 'updateCurrentState', arguments: [frame_number], currView: [floor(posMod360(rotation_angle_sim_human_head) / 45)]},
 
                 success: function (obj, textstatus) {
                               if( !('error' in obj) ) {
-                                    console.log("Collab value of the information is :"+frame_number+":"+obj.result);
+                                    console.log("Collab value of the information is: " + frame_number + " | "+ obj.result + " " + floor(posMod360(rotation_angle_sim_human_head) / 45));
                                     // document.getElementById('collabButton').style.display = 'none';
                                     // document.getElementById('noCollabButton').style.display = 'none';
 
                               }
                               else {
-                                  console.log("Collab Error is:"+obj.error);
+                                  console.log("Collab Error is: "+obj.error);
                               }
                         }
                 });
 }
 
 function printAngle(){
-	console.log(rotation_angle_sim_human_head%360);
+	console.log("Current Head Angle: " + posMod360(rotation_angle_sim_human_head));
 }
 
 function random_movement_generator(){
@@ -108,7 +107,6 @@ function random_movement_generator(){
 		clearInterval(movementInterval);
 		clearInterval(angleInterval);
 	}
-	console.log("Code reaches here");
 	var rand_number;
 	if(baseline == false){
 		if(frame_number == 325){
@@ -131,7 +129,6 @@ function random_movement_generator(){
 	else{
 		rand_number = Math.floor((Math.random() * 4) + 1);
 	}
-	console.log("Code reaches here"+rand_number);
 	if(stop_randomization){
 		return;
 	}
@@ -269,7 +266,6 @@ function sliderMove(){
 }
 
 function go_back(){
-	console.log("Current frame number of going back is: "+frame_number)
 	if (frame_number>0){
 		frame_number = frame_number-5;
 		var dummy_frame_obj_detection = document.getElementById('detection_img');

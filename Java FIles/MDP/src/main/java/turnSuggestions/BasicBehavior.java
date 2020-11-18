@@ -63,6 +63,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Arrays;
 
 
 public class BasicBehavior {
@@ -88,56 +89,77 @@ public class BasicBehavior {
 		}
 		*/
 
-		String mapString = ""; //Will contain the input from the file
+		int[] oldInputMap = new int[8];
+		Arrays.fill(oldInputMap, -1);
+
+		while(true){
+			String mapString = ""; //Will contain the input from the file
+
+			getState getCurrState = new getState();
+			mapString = getCurrState.readServerFile();
+			
 
 
+			//Reads in map from the file
+			/*
+			try {
+				  File input = new File("inputMap.txt");
+				  Scanner scanner = new Scanner(input);
+				  while (scanner.hasNextLine()) {
+					mapString = scanner.nextLine();
+				  }
+				  scanner.close();
+				} catch (FileNotFoundException e) {
+				  System.out.println("Unable to find the file.");
+				  e.printStackTrace();
+				  System.exit(0);
+			}
+			*/
 
-		getState getCurrState = new getState();
-		mapString = getCurrState.readServerFile();
-		System.out.println("Server read Successful:"+mapString);
+			if(mapString != null){
+				//Parsing file from string
+				String[] mapAndStart = mapString.split(" ", 0);
 
+				String[] mapNums = mapAndStart[0].split(",", 0);
 
-		//Reads in map from the file
-		try {
-		      File input = new File("inputMap.txt");
-		      Scanner scanner = new Scanner(input);
-		      while (scanner.hasNextLine()) {
-		        mapString = scanner.nextLine();
-		      }
-		      scanner.close();
-		    } catch (FileNotFoundException e) {
-		      System.out.println("Unable to find the file.");
-		      e.printStackTrace();
-		      System.exit(0);
-		}
+				int[] inputMap = new int[8]; //Holds the map array
 
-		//Parsing file from string
-		String[] mapAndStart = mapString.split(" ", 0);
+				int startPos = Integer.parseInt(mapAndStart[1]); //Holds the position of the view
 
-		String[] mapNums = mapAndStart[0].split(",", 0);
+				int goalPos = -1; //Holds the position of the object of interest
 
-		int[] inputMap = new int[8]; //Holds the map array
+				for(int i = 0; i < 8; i++) {
+					inputMap[i] = Integer.parseInt(mapNums[i]);
+					if(inputMap[i] >= 2) {
+						goalPos = i;
+					}
+				}
 
-		int startPos = Integer.parseInt(mapAndStart[1]); //Holds the position of the view
+				if(goalPos != -1 && !Arrays.equals(inputMap, oldInputMap)){
+					System.out.println("Server read Successful: " + mapString);
+					BasicBehavior view = new BasicBehavior(inputMap, startPos, goalPos);
+					String outputPath = "output/"; //Results Directory
 
-		int goalPos = 0; //Holds the position of the object of interest
+					//view.valueIterationExample(outputPath); //Value Iteration
+					//view.BFSExample(outputPath); //Breath First Search
+					view.QLearningExample(outputPath); //Q-Learning
 
-		for(int i = 0; i < 8; i++) {
-			inputMap[i] = Integer.parseInt(mapNums[i]);
-			if(inputMap[i] == 2) {
-				goalPos = i;
+					//view.visualize(outputPath);
+				}else if(goalPos == -1){
+					updateAction updateCurrAction = new updateAction();
+					String noAction = "";
+					for(int i = 0; i < 8; i++){
+						noAction = noAction + i + " check 50\n";
+					}
+					System.out.println(noAction);
+					updateCurrAction.updateServerFile(noAction);
+				}
+				
+				oldInputMap = inputMap;
 			}
 		}
 
-		BasicBehavior view = new BasicBehavior(inputMap, startPos, goalPos);
-		String outputPath = "output/"; //Results Directory
-
-		//view.valueIterationExample(outputPath); //Value Iteration
-		//view.BFSExample(outputPath); //Breath First Search
-		view.QLearningExample(outputPath); //Q-Learning
-
-
-		//view.visualize(outputPath);
+		
 	}
 
 	public BasicBehavior(int[] map, int initPos, int goalPos) {
@@ -251,9 +273,9 @@ public class BasicBehavior {
 		    writer.close();
 		    System.out.println(current_action_set);
 				updateCurrAction.updateServerFile(current_action_set);
-		    System.out.println("Successfully wrote QTable.txt");
+		    System.out.println("Successfully wrote actions to the server!");
 		} catch (IOException e) {
-		    System.out.println("Failed to write QTable.txt.");
+		    System.out.println("Failed to write actions to the server.");
 		    e.printStackTrace();
 		}
 

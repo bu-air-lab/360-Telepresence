@@ -6,7 +6,6 @@ public class getState {
 
     public getState() {
 
-      System.out.println("Reading file from server.");
       try {
         readServerFile();
       }
@@ -25,9 +24,8 @@ public class getState {
     public String readServerFile() throws java.io.IOException
     {
       String inputLine = "";
-      System.out.println("Reading file from server.");
       try{
-          URL current_state_request = new URL("http://192.168.4.91/ServerFiles/telepresence/current_state.txt");
+          URL current_state_request = new URL("http://10.201.11.74/telepresence/current_state.txt");
           BufferedReader in = new BufferedReader(
           new InputStreamReader(current_state_request.openStream()));
 

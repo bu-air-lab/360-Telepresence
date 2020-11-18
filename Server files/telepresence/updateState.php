@@ -111,17 +111,20 @@
 
     if( !isset($_POST['arguments']) ) { $aResult['error'] = 'No function arguments!'; }
 
+    if( !isset($_POST['currView']) ) { $aResult['error'] = 'No view sent!'; }
+
     if( !isset($aResult['error']) ) {
 
         switch($_POST['functionname']) {
             case 'updateCurrentState':
                 $frame_number = $_POST['arguments'][0];
+                $current_view = $_POST['currView'][0];
                 $result = getFrameState(intval($frame_number));
                 // $aResult['result'] = 0;
                 $aResult['result'] = [$result];
                 $myfile = fopen("./current_state.txt", "w") or die("Unable to open file!");
                 $comma_separated_state = implode(",", $result);
-                fwrite($myfile, $comma_separated_state."\n");
+                fwrite($myfile, $comma_separated_state." ".$current_view."\n");
                 fclose($myfile);
 
 

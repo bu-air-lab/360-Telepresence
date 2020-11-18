@@ -14,15 +14,18 @@
     {
       $current_act_input = $_POST['action_string'];
       $pieces = explode("\n", $current_act_input);
-      $current_act_input = "The input sent was ".$current_act_input;
+      /*$current_act_input = "The input sent was ".$current_act_input;*/
       $aResult['result'] = [$pieces];
       echo json_encode($aResult);
 
       $myfile = fopen("./current_action.txt", "w") or die("Unable to open file!");
+      fwrite($myfile, $current_act_input);
+      /*
       for ($i=0; $i< count($pieces); $i++)
       {
         fwrite($myfile, $pieces[$i]."\n");
       }
+      */
       fclose($myfile);
     }
 

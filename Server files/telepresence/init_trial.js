@@ -28,7 +28,7 @@ var possibleStarts = [10];
 // var possibleStarts = [300, 310, 345, 355];
 
 function test_simulation(){
-  var trial = Math.floor(Math.random() * 2);
+  var trial = 1; //Math.floor(Math.random() * 2);
   var startFrameNum = possibleStarts[Math.floor(Math.random() * possibleStarts.length)];//(Math.round(Math.random()) * 15) + 320;//trialStarts[(Math.floor(trial * (1/2))) * 2];//(((Math.floor(Math.random() * 9)) * 5) + 300);
   startRotationDeg = Math.floor(Math.random() * 360); //trialStarts[((Math.floor(trial * (1/2))) * 2) + 1];
   var frame = "frames/" + startFrameNum + "_frame.jpg";
@@ -51,6 +51,7 @@ function test_simulation(){
     baseline = false;
     //disable_arrows = false;
   }
+  
   console.log("Trial-Type: " + trialType);
   //alert("Started " + trialType + " Trial at frame " + startFrameNum + "with head oriented at " + startRotationDeg + "degrees.");
   trialObj.Type = trialType;
