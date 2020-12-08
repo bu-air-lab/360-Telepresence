@@ -1,0 +1,15 @@
+﻿ground truth,frame range,detected label(s)
+apple,4249-4254,apple
+,4255-4265,"apple, orange"
+yellow_ball,2368-2397,sportsball
+green_ball,2838-2843,sportsball
+pink_ball,3393-3408,sportsball
+banana,3914-3927,banana
+,4036-4048,sportsball
+,4053-4062,orange
+backpack,4135-4222,backpack
+laptop,4269-4308,laptop
+orange,4322-4391,orange
+,4393-4397,sportsball
+red_ball,4384-4404,"sportsball, orange"
+,4360-4377,orange
