@@ -17,7 +17,7 @@
   <script type="text/javascript" src="init_trial.js?version=123321421212122231232212312312313123123324"></script>
   <script type="text/javascript" src="location_arrows.js?version=2"></script>
 	<script type="text/javascript" src="simulated_human.js?version=10126"></script>
-	<script type="text/javascript" src="360_image.js?version=212211102820000122323121322211121211212121211112111221212808"></script>
+	<script type="text/javascript" src="360_image.js?version=21221110282000012232312132221112121121212121111211122121280816"></script>
 	<script type="text/javascript" src="ros_360.js?version=102123022111222123111111232212133111323211211211221232"></script>
 	<script src="obj_det_coco.js?version=121212022131112211221212113111125"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">

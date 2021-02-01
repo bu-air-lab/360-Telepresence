@@ -4,8 +4,9 @@
     "\\src",
     "\\src\\main",
     "\\src\\main\\java",
+    "\\src\\main\\java\\newMDP",
     "\\src\\main\\java\\turnSuggestions"
   ],
-  "SelectedNode": "\\src\\main\\java\\turnSuggestions\\getState.java",
+  "SelectedNode": "\\src\\main\\java\\newMDP\\frameDomain.java",
   "PreviewInSolutionExplorer": false
 }

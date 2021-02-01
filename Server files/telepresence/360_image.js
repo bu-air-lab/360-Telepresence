@@ -9,6 +9,7 @@ var frame_number;
 var movementInterval;
 var angleInterval;
 var updateArrows;
+var currentFrame;
 
 disable_arrows = false;
 
@@ -16,13 +17,22 @@ function posMod360(n) {
   return ((n%360)+360)%360;
 }
 
+function posMod8(n) {
+  return ((n%8)+8)%8;
+}
+
+function getEgoFrame(frame, wedge){
+  var egoFrame = [];
+  for(i = 0; i < 8; i++){
+    egoFrame[posMod8(i-wedge)] = frame[0][i];
+  }
+  return "[" + egoFrame[0] + "," + egoFrame[1] + "," + egoFrame[2] + "," + egoFrame[3] + "," + egoFrame[4] + "," + egoFrame[5] + "," + egoFrame[6] + "," + egoFrame[7] + "]"
+}
+
 function execute_actions(){
   var xmlhttp = new XMLHttpRequest();
-  xmlhttp.open("GET", "current_action.txt", false);
+  xmlhttp.open("GET", "NewSimplifiedQTable.txt", false);
   xmlhttp.send();
-  if (xmlhttp.status==200 && xmlhttp.readyState == XMLHttpRequest.DONE) {
-		console.log("Current Action File: \n" + xmlhttp.responseText);
-  }
 	var act_arr = xmlhttp.responseText.split("\n");
 
 
@@ -32,13 +42,22 @@ function execute_actions(){
 
 	act_arr.forEach(furtherSplit);
 	var wedge = floor(posMod360(rotation_angle_sim_human_head) / 45);
-	console.log("Current Wedge: " + wedge);
-	console.log("Current suggested action: " + act_arr[wedge][1]);
-	if(act_arr[wedge][1] == "left"){
+  //console.log("Current Frame: " + currentFrame + " | " + typeof(currentFrame));
+  var correctFrame = getEgoFrame(currentFrame, wedge);
+  console.log("Corrected Ego Frame: " + correctFrame);
+  var correctAction = "check";
+  for(var i = 0; i < act_arr.length; i++){
+    if(act_arr[i][0] == correctFrame){
+      console.log("Found correct frame on line " + i)
+      correctAction = act_arr[i][1];
+    }
+  }
+	console.log("Current suggested action: " + correctAction);
+	if(correctAction == "left"){
 		enable("left_arrow_aframe");
     disable("right_arrow_aframe");
 		console.log("Enabling Left Arrow");
-	}else if(act_arr[wedge][1] == "right"){
+	}else if(correctAction == "right"){
 		enable("right_arrow_aframe");
     disable("left_arrow_aframe");
 		console.log("Enabling Right Arrow");
@@ -86,7 +105,8 @@ function updateCurrentState()
 
                 success: function (obj, textstatus) {
                               if( !('error' in obj) ) {
-                                    console.log("Collab value of the information is: " + frame_number + " | "+ obj.result + " " + floor(posMod360(rotation_angle_sim_human_head) / 45));
+                                    //console.log("Collab value of the information is: " + frame_number + " | "+ obj.result + " " + floor(posMod360(rotation_angle_sim_human_head) / 45));
+                                    currentFrame = obj.result;
                                     // document.getElementById('collabButton').style.display = 'none';
                                     // document.getElementById('noCollabButton').style.display = 'none';
 
